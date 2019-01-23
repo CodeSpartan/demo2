@@ -11,9 +11,9 @@
   <link rel="stylesheet" href="style.css">
  </head>
 <body>
-<script>
+<script>window.onload = main;
 
-window.onload = main;
+var shouldUpdateParticleMap = true;
 
 function main()
 {
@@ -24,14 +24,19 @@ function main()
   drawPath('#path-team', 0.45, 0.22);
   drawPath('#path-news', 0.65, 0.25);
   
-  //Wave(0);
-  Wave(1);
-  Wave(2);
-  //Wave(3);
+  window.setTimeout(StartWaves, 3000);
       
   particles();
 }
 
+function StartWaves()
+{
+	shouldUpdateParticleMap = false;
+ 	//Wave(0);
+  Wave(1);
+  Wave(2);
+  //Wave(3);
+}
 
 function drawPath (id, offset, partPercentage)
 {
@@ -296,6 +301,7 @@ function particles() {
       };
 
       function animate() {
+      	if (!shouldUpdateParticleMap) return;
         update();
         render();
         requestAnimationFrame(animate);

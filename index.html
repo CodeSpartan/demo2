@@ -14,6 +14,8 @@
 <script>window.onload = main;
 
 var shouldUpdateParticleMap = true;
+var shouldUpdateWave1 = false;
+var shouldUpdateWave2 = false;
 
 function main()
 {
@@ -24,19 +26,33 @@ function main()
   drawPath('#path-team', 0.45, 0.22);
   drawPath('#path-news', 0.65, 0.25);
   
-  window.setTimeout(StartWaves, 2500);
-      
-  particles();
-}
-
-function StartWaves()
-{
-	shouldUpdateParticleMap = false;
- 	//Wave(0);
   Wave(1);
   Wave(2);
-  //Wave(3);
+  particles();
+  
+   window.addEventListener("scroll", function(e) {
+    var scrollPercentage = (document.documentElement.scrollTop + document.body.scrollTop) / (document.documentElement.scrollHeight - document.documentElement.clientHeight);
+      console.log(scrollPercentage);
+      if (scrollPercentage > 0.5) 
+      {
+      	 shouldUpdateWave1 = true;
+      	 shouldUpdateParticleMap = shouldUpdateWave2 = false;    
+      } 
+      else if (scrollPercentage > 0.1) 
+      {
+      	 shouldUpdateWave2 = true;
+      	 shouldUpdateParticleMap = shouldUpdateWave1 = false;    
+      } 
+      
+      else {
+      	 shouldUpdateParticleMap = true;
+      	 shouldUpdateWave1 = shouldUpdateWave2 = false;
+      }
+    });
+      
+ 
 }
+
 
 function drawPath (id, offset, partPercentage)
 {
@@ -143,6 +159,8 @@ function initWaves() {
 }
 
 function renderWaves() {
+if (TYPE == 1 && !shouldUpdateWave1) return;
+if (TYPE == 2 && !shouldUpdateWave2) return;
 
 	var i = 0;
 

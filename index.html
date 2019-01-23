@@ -45,6 +45,7 @@ function main()
       } 
       
       else {
+       console.log("particle");
       	 shouldUpdateParticleMap = true;
       	 shouldUpdateWave1 = shouldUpdateWave2 = false;
       }
@@ -302,6 +303,7 @@ function particles() {
       init();
 
       function update() {
+      if (!shouldUpdateParticleMap) return;
         for(var i = 0; i < particleArr.length; i++) {
           var p = particleArr[i];
           p.update();
@@ -309,6 +311,7 @@ function particles() {
       };
 
       function render() {
+      if (!shouldUpdateParticleMap) return;
         contextInteractive.clearRect(0, 0, width, height);
         for(var i = 0; i < particleArr.length; i++) {
           var p = particleArr[i];
@@ -318,8 +321,7 @@ function particles() {
         }
       };
 
-      function animate() {
-      	if (!shouldUpdateParticleMap) return;
+      function animate() {      	
         update();
         render();
         requestAnimationFrame(animate);
